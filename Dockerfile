@@ -1,23 +1,30 @@
-# Usar la imagen base de Node.js
-FROM node:18
+FROM node:18-alpine AS deps
 
-# Crear un directorio de trabajo en el contenedor
-WORKDIR /usr/src/app
+WORKDIR /app
 
-# Copiar los archivos de configuración de dependencias
-COPY package*.json ./
-
-# Instalar las dependencias de la aplicación
+COPY package.json ./
 RUN npm install
 
-# Copiar el código fuente de la aplicación al contenedor
+FROM node:18-alpine AS builder
+
+WORKDIR /app
+
+COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# Construir la aplicación
 RUN npm run build
 
-# Exponer el puerto en el que la aplicación escuchará
-EXPOSE 3000
+ENV NODE_ENV=production
+RUN npm ci --only=production \
+    && npm cache clean --force
 
-# Comando para iniciar la aplicación
-CMD ["npm", "run", "start:dev"]
+FROM node:18-alpine AS runner
+
+WORKDIR /app
+
+COPY --from=builder --chown=node:node /app/dist ./dist
+COPY --from=builder --chown=node:node /app/node_modules ./node_modules
+
+USER node
+
+CMD ["node", "dist/main.js"]
