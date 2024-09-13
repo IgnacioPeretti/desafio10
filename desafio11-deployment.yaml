@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: desafio11-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: desafio11
+  template:
+    metadata:
+      labels:
+        app: desafio11
+    spec:
+      containers:
+        - name: desafio11
+          image: ignacioperetti/eduit-kubernetes:latest
+          env:
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              value: s3cr3t!
+            - name: MONGO_INITDB_ROOT_USERNAME
+              value: root
+            - name: MONGO_DB_NAME
+              value: educacionit
+            - name: MONGO_DB_URI
+              value: "mongodb://root:s3cr3t!@desafio11-service:27017/educacionit"
+          ports:
+            - containerPort: 3000
+              protocol: TCP
+
+

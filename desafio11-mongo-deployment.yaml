@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: db-server
+  name: desafio11-mongo
 spec:
   replicas: 1
   selector:
     matchLabels:
-      io.kompose.service: db-server
+      app: desafio11-mongo
   template:
     metadata:
       labels:
-        io.kompose.service: db-server
+        app: desafio11-mongo
     spec:
       containers:
         - env:
@@ -19,7 +19,7 @@ spec:
             - name: MONGO_INITDB_ROOT_USERNAME
               value: root
           image: mongo:7.0
-          name: educacionit-app-db
+          name: mongo
           ports:
             - containerPort: 27017
               protocol: TCP
@@ -31,3 +31,6 @@ spec:
         - name: mongodb-data
           persistentVolumeClaim:
             claimName: mongodb-data
+
+
+
