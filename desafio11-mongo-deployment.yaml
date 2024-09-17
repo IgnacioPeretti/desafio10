@@ -13,24 +13,15 @@ spec:
         app: desafio11-mongo
     spec:
       containers:
-        - env:
-            - name: MONGO_INITDB_ROOT_PASSWORD
-              value: s3cr3t!
-            - name: MONGO_INITDB_ROOT_USERNAME
-              value: root
-          image: mongo:7.0
-          name: mongo
-          ports:
-            - containerPort: 27017
-              protocol: TCP
-          volumeMounts:
-            - mountPath: /data/db
-              name: mongodb-data
-      restartPolicy: Always
-      volumes:
-        - name: mongodb-data
-          persistentVolumeClaim:
-            claimName: mongodb-data
+      - name: mongo
+        image: mongo:7.0
+        ports: 
+        - containerPort: 2707
+        env:
+        - name: MONGO_INITDB_ROOT_USERNAME
+          value: "root"
+        - name: MONGO_INITDB_ROOT_PASSWORD
+          value: "s3cr3t!"
 
 
 

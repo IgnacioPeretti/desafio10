@@ -1,0 +1,28 @@
+# Default values for mi-chart.
+
+replicaCount: 1
+
+image:
+  repository: ignacioperetti/eduit-kubernetes
+  tag: latest
+  pullPolicy: IfNotPresent
+service:
+    port: 3000
+    type: ClusterIP
+
+
+mongodb:
+  enabled: true
+  image:
+    repository: mongo
+    tag: latest
+  service:
+    port: 27017
+    type: ClusterIP
+  auth:
+    enabled: true
+    username: root
+    password: s3cr3t!
+    database: desafio11-mongo
+
+
