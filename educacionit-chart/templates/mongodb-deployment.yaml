@@ -19,6 +19,9 @@ spec:
           image: "{{ .Values.mongodb.image.repository }}:{{ .Values.mongodb.image.tag }}"
           ports:
             - containerPort: 27017
+          volumeMounts: 
+          - name: mongodb-data
+            mountPath: /data/db
           env:
             - name: MONGO_INITDB_ROOT_USERNAME
               value: "{{ .Values.mongodb.auth.username }}"
@@ -26,6 +29,7 @@ spec:
               value: "{{ .Values.mongodb.auth.password }}"
             - name: MONGO_INITDB_DATABASE
               value: "{{ .Values.mongodb.auth.database }}"
-          volumeMounts: 
-          - name: mongodb-data
-            mountPath: /data/db
+      volumes:
+        - name: mongodb-data
+          persistentVolumeClaim:
+            claimName: mongodb-pvc
