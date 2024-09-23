@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
+  name: mongodb-pvc
   labels:
-    io.kompose.service: mongodb-data
-  name: mongodb-data
+    app: mongodb
 spec:
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 100Mi
+      storage: 2Gi
