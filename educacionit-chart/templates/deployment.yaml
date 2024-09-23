@@ -5,7 +5,7 @@ metadata:
   labels:
     app: educacionit-chart
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: 1
   selector:
     matchLabels:
       app: educacionit-chart
@@ -16,10 +16,15 @@ spec:
     spec:
       containers:
         - name: educacionit-chart
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          image: ignacioperetti/eduit-kubernetes:latest
           ports:
             - containerPort: 3000
           env:
             - name: MONGO_URI
-              value: "mongodb://{{ .Values.mongodb.auth.username }}:{{ .Values.mongodb.auth.password }}@mongodb:27017/{{ .Values.mongodb.auth.database }}"
-
+              value: "mongodb://root:s3cr3t!@mongodb-service:27017"
+            - name: MONGO_DB_NAME
+              value: desafio11-mongo
+            - name: MONGO_DB_USER
+              value: root
+            - name: MONGO_DB_PASS
+              value: s3cr3t!
